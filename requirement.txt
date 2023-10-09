@@ -1,0 +1,14 @@
+ streamlit 
+ pdfplumber
+ pandas
+ matplotlib
+ seaborn 
+ io
+ base64
+ 
+Use pip install for installation
+
+and for running 
+use 
+
+streamlit run app.py
