@@ -1,10 +1,3 @@
-import streamlit as st
-import pdfplumber
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-from io import BytesIO
-import base64 
 
 data_cleaned = False
 #Step 1 : pdf data extraction
