@@ -1,5 +1,6 @@
-Streamlit: 0.89.0 
-pdfplumber: 0.5.27
-Pandas: 1.3.3
-Matplotlib: 3.4.3
-Seaborn: 0.11.2
+/home/appuser/venv/bin/python -m pip install --upgrade pip
+Streamlit==0.89.0 
+pdfplumber==0.5.28
+Pandas==1.3.3
+Matplotlib==3.4.3
+Seaborn==0.11.2
