@@ -1,7 +1,7 @@
- pdfplumber
- pandas
- matplotlib
- seaborn 
- io
- base64
- 
+import streamlit as st
+import pdfplumber
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from io import BytesIO
+import base64 
