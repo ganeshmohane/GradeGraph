@@ -1,0 +1,7 @@
+streamlit
+pandas
+seaborn
+pdfplumber
+Matplotlib
+io
+base64
