@@ -1,4 +1,6 @@
 streamlit
-
+seaborn
+matplotlib
+pdfplumber
 io
 base64
