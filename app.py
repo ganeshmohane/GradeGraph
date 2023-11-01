@@ -5,6 +5,7 @@ import pdfplumber
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64 
+from openpyxl.workbook import Workbook
 
 data_cleaned = False
 #Step 1 : pdf data extraction
