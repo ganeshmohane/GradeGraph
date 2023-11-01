@@ -1,6 +1,4 @@
 streamlit
-seaborn
-matplotlib==3.4.3
-pdfplumber
+
 io
 base64
