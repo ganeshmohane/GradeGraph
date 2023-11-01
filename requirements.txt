@@ -1,7 +1,7 @@
 streamlit
 pandas
-seaborn
-pdfplumber
-Matplotlib
+seaborn==0.11.2
+matplotlib==3.4.3
+pdfplumber==0.5.28
 io
 base64
