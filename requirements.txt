@@ -1,6 +1,6 @@
 streamlit
-seaborn==0.11.2
+seaborn
 matplotlib==3.4.3
-pdfplumber==0.5.28
+pdfplumber
 io
 base64
