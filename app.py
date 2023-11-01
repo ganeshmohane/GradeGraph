@@ -78,9 +78,8 @@ if uploaded_uncleaned_excel_file is not None:
 
 # Step 3: Data Visualization
 import matplotlib.pyplot as plt
-st.expander("Step 3: Data Visualization")
-
-uploaded_cleaned_excel_file = st.file_uploader("Choose the cleaned Excel file", type=["xlsx"])
+with st.expander("Step 3: Data Visualization")
+    uploaded_cleaned_excel_file = st.file_uploader("Choose the cleaned Excel file", type=["xlsx"])
 
 if uploaded_cleaned_excel_file is not None:
     cleaned_df = pd.read_excel(uploaded_cleaned_excel_file)
