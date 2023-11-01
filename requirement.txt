@@ -1,4 +1,6 @@
 Streamlit
+pandas
+seaborn
 pdfplumber
 Matplotlib
 io
