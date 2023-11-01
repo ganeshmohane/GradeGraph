@@ -47,7 +47,7 @@ with st.expander("Step 1: Upload PDF File for Extraction"):
 
 
 # Step 2: Upload Uncleaned Excel File
-with st.expander("Step 2: Upload Uncleaned Excel File"):
+with st.expander("Step 2: Clean Data"):
     uploaded_uncleaned_excel_file = st.file_uploader("Choose the uncleaned Excel file", type=["xlsx"])
     
 data_cleaned = False
@@ -78,7 +78,7 @@ if uploaded_uncleaned_excel_file is not None:
 
 # Step 3: Data Visualization
 import matplotlib.pyplot as plt
-with st.expander("Step 3: Data Visualization")
+with st.expander("Step 3: Data Visualization"):
     uploaded_cleaned_excel_file = st.file_uploader("Choose the cleaned Excel file", type=["xlsx"])
 
 if uploaded_cleaned_excel_file is not None:
