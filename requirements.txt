@@ -1,5 +1,6 @@
 streamlit
 seaborn
+pandas
 matplotlib
 pdfplumber
 io
