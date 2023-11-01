@@ -3,4 +3,5 @@ seaborn
 Pandas
 pdfplumber
 Matplotlib
-
+io
+base64
