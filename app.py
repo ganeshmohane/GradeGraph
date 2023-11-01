@@ -5,7 +5,7 @@ import pdfplumber
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64 
-
+st.header("GradeGraph")
 data_cleaned = False
 #Step 1 : pdf data extraction
 def extract_pdf_data(pdf_file_path):
@@ -28,7 +28,7 @@ def extract_pdf_data(pdf_file_path):
 st.title("PDF Data Extraction and Analysis")
 
 
-with st.expander("Step 1: Upload PDF File for Extraction"):
+with st.subheader("Step 1: Upload PDF File for Extraction"):
     uploaded_pdf_file = st.file_uploader("Choose a PDF file", type=["pdf"])
 
     if uploaded_pdf_file is not None:
@@ -77,7 +77,7 @@ if uploaded_uncleaned_excel_file is not None:
 
 # Step 3: Data Visualization
 import matplotlib.pyplot as plt
-st.subheader("Step 3: Data Visualization")
+st.expander("Step 3: Data Visualization")
 
 uploaded_cleaned_excel_file = st.file_uploader("Choose the cleaned Excel file", type=["xlsx"])
 
