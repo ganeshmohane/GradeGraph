@@ -28,7 +28,7 @@ def extract_pdf_data(pdf_file_path):
 st.title("GradeGraph : pdf Extraction, Cleaning and Visualizatioin")
 
 
-with st.header("Step 1: Upload PDF File for Extraction"):
+with st.expander("Step 1: Upload PDF File for Extraction"):
     uploaded_pdf_file = st.file_uploader("Choose a PDF file", type=["pdf"])
 
     if uploaded_pdf_file is not None:
