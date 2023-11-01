@@ -1,8 +1,0 @@
-pip==23.3.1
-streamlit
-pandas
-seaborn
-pdfplumber
-Matplotlib
-io
-base64
