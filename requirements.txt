@@ -3,5 +3,3 @@ seaborn
 pandas
 matplotlib
 pdfplumber
-io
-base64
