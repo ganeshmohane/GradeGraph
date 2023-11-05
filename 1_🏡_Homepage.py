@@ -263,7 +263,7 @@ if uploaded_excel is not None:
         sns.barplot(data=top_cgpa, x='Student Name', y='CGPI')
         # Add CGPI values on top of the bars
         for i in range(len(top_cgpa)):
-        plt.text(i, top_cgpa['CGPI'].iloc[i], f"{top_cgpa['CGPI'].iloc[i]:.2f}", ha="center", va="bottom")
+            plt.text(i, top_cgpa['CGPI'].iloc[i], f"{top_cgpa['CGPI'].iloc[i]:.2f}", ha="center", va="bottom")
         plt.show()
 
 
