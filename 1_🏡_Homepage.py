@@ -75,6 +75,9 @@ if combined_df is not None:
                 # Remove the pattern "Seat No / Name of Student ↓" and clean up student names
                 cleaned_name = cell_content.strip().replace("Seat No / Name of Student ↓", "")
 
+                if "Seat No" in cleaned_name:
+                    cleaned_name = cleaned_name.replace("Seat No", "")
+                
                 # Check if the cleaned name is empty
                 if not cleaned_name:
                     # If empty, fill with the previous name (if available)
@@ -254,7 +257,14 @@ if uploaded_excel is not None:
         ax.axis('equal')
         st.pyplot(fig)
         
-        #2.
+        #2. Top 10
+        top_cgpa = df.groupby(['Student Name'], as_index=False)['CGPI'].sum().sort_values(by='CGPI', ascending=False).head(10)
+        sns.set(rc={'figure.figsize': (30, 5)})
+        sns.barplot(data=top_cgpa, x='Student Name', y='CGPI')
+        # Add CGPI values on top of the bars
+        for i in range(len(top_cgpa)):
+        plt.text(i, top_cgpa['CGPI'].iloc[i], f"{top_cgpa['CGPI'].iloc[i]:.2f}", ha="center", va="bottom")
+        plt.show()
 
 
 # Footer
