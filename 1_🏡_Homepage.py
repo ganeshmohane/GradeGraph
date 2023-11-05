@@ -257,14 +257,14 @@ if uploaded_excel is not None:
         ax.axis('equal')
         st.pyplot(fig)
         
-        #2. Top 10
+        ###2. Top 10
         top_cgpa = cleaned_df.groupby(['Student Name'], as_index=False)['CGPI'].sum().sort_values(by='CGPI', ascending=False).head(10)
         sns.set(rc={'figure.figsize': (30, 5)})
         sns.barplot(data=top_cgpa, x='Student Name', y='CGPI')
         # Add CGPI values on top of the bars
         for i in range(len(top_cgpa)):
             plt.text(i, top_cgpa['CGPI'].iloc[i], f"{top_cgpa['CGPI'].iloc[i]:.2f}", ha="center", va="bottom")
-        plt.show()
+        plt.show()###
 
 
 # Footer
