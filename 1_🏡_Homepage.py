@@ -25,7 +25,6 @@ data_cleaned = False
 combined_df = None
 
 st.subheader("Data Extraction & Cleaning :")
-st.write("Upload PDF file ")
 st.write("Note : Upload only LTCE result pdf's of semester 3,4,5,6")
 uploaded_pdf_file = st.file_uploader("Choose a PDF file", type=["pdf"])
 if uploaded_pdf_file is not None:
