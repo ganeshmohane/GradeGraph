@@ -258,7 +258,7 @@ if uploaded_excel is not None:
         st.pyplot(fig)
         
         #2. Top 10
-        top_cgpa = df.groupby(['Student Name'], as_index=False)['CGPI'].sum().sort_values(by='CGPI', ascending=False).head(10)
+        top_cgpa = cleaned_df.groupby(['Student Name'], as_index=False)['CGPI'].sum().sort_values(by='CGPI', ascending=False).head(10)
         sns.set(rc={'figure.figsize': (30, 5)})
         sns.barplot(data=top_cgpa, x='Student Name', y='CGPI')
         # Add CGPI values on top of the bars
