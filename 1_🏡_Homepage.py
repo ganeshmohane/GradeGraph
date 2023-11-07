@@ -256,16 +256,35 @@ if uploaded_excel is not None:
                 # If the student failed, display "Failed" with a red box
                 st.markdown(f"<div style='background-color: tomato; padding: 10px; border-radius: 5px;'>Failed</div>", unsafe_allow_html=True)
             st.markdown('<br>', unsafe_allow_html=True)
+
+            # 3. No. Of KT's
+            def count_failures(column):
+                return column.astype(str).str.count('F')
+            # Select all columns except the last 4
+            columns_to_check = student_df.columns[:-4]
+            total_kts = 0
+            # Loop through the selected columns and add a 'KT' column
+            for col in columns_to_check:
+                student_df[f'{col}_KT'] = count_failures(student_df[col])
+
+            # Print the 'KT' columns
+            for col in columns_to_check:
+                kt_column = f'{col}_KT'
+                kt_count = student_df[kt_column].sum()
+                total_kts += kt_count
+                if kt_count > 0:
+                    st.write(f"Failed in '{col}'")
+            st.write(f"Total KT '{total_kts}'")
             
             
             
-            # 3. Display individual student's CGPI and SGPI
+            # 4. Display individual student's CGPI and SGPI
             st.markdown(f"<b>CGPI : </b>", unsafe_allow_html=True)
             st.write(f"{selected_student}'s CGPI: {student_df['CGPI'].values[0]}")
             st.markdown(f"<b>SGPI : </b>", unsafe_allow_html=True)
             st.write(f"{selected_student}'s SGPI: {student_df['SGPI'].values[0]}")
             
-            # 4. Rank and Marks
+            # 5. Rank and Marks
             st.markdown('<br>', unsafe_allow_html=True)
             sorted_df = cleaned_df.sort_values(by='CGPI', ascending=False)
             sorted_df['Rank'] = range(1, len(sorted_df) + 1)
@@ -278,7 +297,7 @@ if uploaded_excel is not None:
             selected_student_rank = sorted_df[sorted_df['Student Name'] == selected_student]['Rank'].values[0]
             st.write(f"{selected_student}'s CGPI Rank: {selected_student_rank}")
             
-            # 5. subjects 
+            # 6. subjects performance
             subject_columnss = [col for col in student_df.columns if col not in ['Seat No', 'Student Name', 'CGPI', 'SGPI', 'Result', 'Total']]
             subject_columnss = [col for col in subject_columnss if not col.startswith('Unnamed')]
             subject_columnss = subject_columnss[:-2]    
