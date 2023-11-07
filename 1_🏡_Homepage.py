@@ -26,6 +26,7 @@ combined_df = None
 
 st.subheader("Data Extraction & Cleaning :")
 st.write("Note : Upload only LTCE result pdf's of semester 3,4,5,6")
+st.markdown('You can download LTCE result pdfs from here <a href="https://ltce-exam.blogspot.com/">LTCE RESULTS</a>', unsafe_allow_html=True)
 uploaded_pdf_file = st.file_uploader("Choose a PDF file", type=["pdf"])
 if uploaded_pdf_file is not None:
     if st.button("Extract and Clean PDF Data"):
@@ -75,6 +76,7 @@ if combined_df is not None:
                 # Remove the pattern "Seat No / Name of Student ↓" and clean up student names
                 cleaned_name = cell_content.strip().replace("Seat No / Name of Student ↓", "")
 
+                  # Check if the cleaned name contains "Seat No" and remove it
                 if "Seat No" in cleaned_name:
                     cleaned_name = cleaned_name.replace("Seat No", "")
                 
@@ -233,41 +235,170 @@ if uploaded_excel is not None:
         # Add code to display individual student graphs based on the selected student
         # Filter data for the selected student
         student_df = cleaned_df[cleaned_df['Student Name'] == selected_student]
+        
+      
+       # 1. Calculate the number of students, pass, and fail
+        total_students = len(cleaned_df)
+        pass_count = len(cleaned_df[cleaned_df['Result'].str.contains('P', case=False, na=False)])  
+        fail_count = total_students - pass_count
+        st.markdown(f"<b>Total Students: {total_students} </b>", unsafe_allow_html=True)
+        st.markdown(f'<div style="color:green; ">Passed Students : {pass_count}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="color:red; ">Failed Students : {fail_count}</div>', unsafe_allow_html=True)
+        st.markdown('<br>', unsafe_allow_html=True)
+        
+        # 2. pass/fail status of student
+        if not student_df.empty:
+            pass_status = student_df['Result'].values[0]
+            if pass_status == 'P':
+                # If the student passed, display "Passed" with a green box
+                st.markdown(f"<div style='background-color: limegreen; padding: 10px; border-radius: 5px;'>Passed</div>", unsafe_allow_html=True)
+            else:
+                # If the student failed, display "Failed" with a red box
+                st.markdown(f"<div style='background-color: tomato; padding: 10px; border-radius: 5px;'>Failed</div>", unsafe_allow_html=True)
+            st.markdown('<br>', unsafe_allow_html=True)
+            
+            
+            
+            # 3. Display individual student's CGPI and SGPI
+            st.markdown(f"<b>CGPI : </b>", unsafe_allow_html=True)
+            st.write(f"{selected_student}'s CGPI: {student_df['CGPI'].values[0]}")
+            st.markdown(f"<b>SGPI : </b>", unsafe_allow_html=True)
+            st.write(f"{selected_student}'s SGPI: {student_df['SGPI'].values[0]}")
+            
+            # 4. Rank and Marks
+            st.markdown('<br>', unsafe_allow_html=True)
+            sorted_df = cleaned_df.sort_values(by='CGPI', ascending=False)
+            sorted_df['Rank'] = range(1, len(sorted_df) + 1)
+            # Print the sorted DataFrame with ranks
+            st.markdown(f"<b>Students Marks : </b>", unsafe_allow_html=True)
+            selected_student_entry = sorted_df[sorted_df['Student Name'] == selected_student]
+            st.write(selected_student_entry)
+            # Find the rank of the selected student
+            st.markdown(f"<b>RANK : </b>", unsafe_allow_html=True)
+            selected_student_rank = sorted_df[sorted_df['Student Name'] == selected_student]['Rank'].values[0]
+            st.write(f"{selected_student}'s CGPI Rank: {selected_student_rank}")
+            
+            # 5. subjects 
+            subject_columnss = [col for col in student_df.columns if col not in ['Seat No', 'Student Name', 'CGPI', 'SGPI', 'Result', 'Total']]
+            subject_columnss = [col for col in subject_columnss if not col.startswith('Unnamed')]
+            subject_columnss = subject_columnss[:-2]    
 
-        # 1.pass/fail status for the selected student
-        pass_fail_counts = student_df['Result'].value_counts()
-        st.write("Pass/Fail")
-        fig, ax = plt.subplots()
-        colors = ['limegreen' if label == 'P' else 'tomato' for label in pass_fail_counts.index]
-        labels = ['Pass' if label == 'P' else 'Fail' for label in pass_fail_counts.index]
-        ax.pie(pass_fail_counts, labels=labels, autopct='%1.1f%%', startangle=90, colors=colors)
-        ax.axis('equal')
-        st.pyplot(fig)
+        if len(subject_columnss) > 0:
+            
+            # Allow user to select a subject
+            st.markdown(f"<b>SUBJECT WISE PERFORMANCE : </b>", unsafe_allow_html=True)
+            selected_subject = st.selectbox('Select a subject', subject_columnss)
+            
+            if selected_subject:
+                # Use regular expressions to remove alphabetical letters and convert to float
+                values = [float(re.sub('[^0-9.]', '', str(value)) if re.search(r'\d', str(value)) else 0) for value in student_df[selected_subject]]
+                # Create a larger figure with Seaborn
+                sns.set(rc={'figure.figsize': (10, 6)})
+                fig, ax = plt.subplots()
+                sns.barplot(data=student_df, x='Student Name', y=values, color='dodgerblue')
+                ax.set_ylim(0, 100) 
+                ax.set_xlabel('Student Name')
+                ax.set_ylabel('Marks')
+                ax.set_title(f'{selected_student} - {selected_subject} Marks')
+
+                # Add values on top of the bars
+                for i in range(len(student_df)):
+                    plt.text(i, values[i], f"{values[i]:.2f}", ha="center", va="bottom")
+                    # Save the plot as an image (e.g., PNG)
+                plt.savefig("img.png")
+                st.image("img.png")
+            
+                
+            else:
+                st.write("Please select a subject.")
+        else:
+            st.write("No subject columns detected for the selected student.")
+        
+    else:      
+        st.write(f"{selected_student} not found in the dataset.")
+
+       
+        
+        
+        
         
 #---------------------------------------------------------------------------------------------------------    
 
     if selected_student == "Overall":
         # Add code to display overall student graphs
         
-        #1.Overall pass/fail
+        # 1.Calculate the number of students, pass, and fail
+        total_students = len(cleaned_df)
+        pass_count = len(cleaned_df[cleaned_df['Result'].str.contains('P', case=False, na=False)])  
+        fail_count = total_students - pass_count
+        st.markdown(f"<b>Total Students: {total_students} </b>", unsafe_allow_html=True)
+        st.markdown(f'<div style="color:green; ">Passed Students : {pass_count}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="color:red; ">Failed Students : {fail_count}</div>', unsafe_allow_html=True)
+        st.markdown('<br>', unsafe_allow_html=True)
+        
+        # 2. Students Marks
+        sorted_df = cleaned_df.sort_values(by='CGPI', ascending=False)
+        sorted_df['Rank'] = range(1, len(sorted_df) + 1)
+        # Print the sorted DataFrame with ranks
+        st.markdown(f"<b>Students Marks : </b>", unsafe_allow_html=True)
+        selected_overall = sorted_df
+        st.write(selected_overall)
+        
+        # 3. Overall pass/fail Pie chart
+        st.markdown('<br>', unsafe_allow_html=True)
+        st.markdown(f"<b>PASS/FAIL : </b>", unsafe_allow_html=True)
         pass_fail_counts = cleaned_df['Result'].value_counts()
-        st.write("Pass/Fail Distribution:")
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(4, 4))
         ax.pie(pass_fail_counts, labels=pass_fail_counts.index, autopct='%1.1f%%', startangle=90)
         ax.axis('equal')
-        st.pyplot(fig)
+        plt.savefig("img.png")
+        st.image("img.png")
         
-        ###2. Top 10
-        top_cgpa = cleaned_df.groupby(['Student Name'], as_index=False)['CGPI'].sum().sort_values(by='CGPI', ascending=False).head(10)
-        sns.set(rc={'figure.figsize': (30, 5)})
-        sns.barplot(data=top_cgpa, x='Student Name', y='CGPI')
-        # Add CGPI values on top of the bars
-        for i in range(len(top_cgpa)):
-            plt.text(i, top_cgpa['CGPI'].iloc[i], f"{top_cgpa['CGPI'].iloc[i]:.2f}", ha="center", va="bottom")
-        plt.show()###
+        # 4. Avg CGPI
+        st.markdown(f"<b>Average CGPI : </b>", unsafe_allow_html=True)
+        avg_cgpi = cleaned_df['CGPI'].mean()
+        st.write(f"Average CGPI: {avg_cgpi:.2f}")
+        st.markdown('<br>', unsafe_allow_html=True)
+        
+        # 5. top 5 
+        st.markdown(f"<b>TOP 5 : </b>", unsafe_allow_html=True)
+        top_mathsstud = cleaned_df.groupby(['Student Name'], as_index=False)['CGPI'].sum().sort_values(by='CGPI', ascending=False).head(5)
+        sns.set(rc={'figure.figsize': (15, 6)})
+        fig, ax = plt.subplots()
+        sns.barplot(data=top_mathsstud, x='Student Name', y='CGPI')
+        for i in range(len(top_mathsstud)):
+            plt.text(i, top_mathsstud['CGPI'].iloc[i], f"{top_mathsstud['CGPI'].iloc[i]:.2f}", ha="center", va="bottom")
+        plt.savefig("img.png")
+        st.image("img.png")
+        
 
 
+        # Filter the subject columns
+        subject_columns = [col for col in cleaned_df.columns if col not in ['Seat No', 'Student Name', 'CGPI', 'SGPI', 'Result', 'Total']]
+        subject_columns = [col for col in subject_columns if not col.startswith('Unnamed')]
+        subject_columns = subject_columns[:-2]
+
+        if len(subject_columns) > 0:
+        # Allow user to select a subject
+            st.markdown(f"<b>SUBJECT WISE PERFORMANCE : </b>", unsafe_allow_html=True)
+            selected_subject = st.selectbox('Select a subject', subject_columns)
+    
+            if selected_subject:
+                # Use regular expressions to remove alphabetical letters and convert to float
+                values = [float(re.sub('[^0-9.]', '', str(value)) if re.search(r'\d', str(value)) else 0) for value in cleaned_df[selected_subject]]
+        
+                # Calculate the average score for the selected subject
+                average_score = sum(values) / len(values)
+                st.write(f"Average score for {selected_subject}: {average_score:.2f}")
+
+        
+            else:
+                st.write("Please select a subject.")
+        else:
+            st.write("No subject columns detected for the selected student.")
+        
+        
 # Footer
 st.markdown("---")
 st.markdown('<div style="text-align: center;">© 2023 GradeGraph</div>', unsafe_allow_html=True)
-st.markdown('<div style="text-align: center;">Follow us on <a href="https://twitter.com/gradegraph">Twitter</a> and <a href="https://linkedin.com/company/gradegraph">LinkedIn</a></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: center;">For more information Follow us on <a href="https://github.com/ganeshmohane/GradeGraph">GitHub</a></div>', unsafe_allow_html=True)
