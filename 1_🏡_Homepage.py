@@ -251,10 +251,10 @@ if uploaded_excel is not None:
             pass_status = student_df['Result'].values[0]
             if pass_status == 'P':
                 # If the student passed, display "Passed" with a green box
-                st.markdown(f"<div style='background-color: limegreen; padding: 10px; border-radius: 5px;'>Passed</div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='background-color: limegreen; padding: 10px; border-radius: 5px;'>Congratulations 🎉😀, You passed this Sem</div>", unsafe_allow_html=True)
             else:
                 # If the student failed, display "Failed" with a red box
-                st.markdown(f"<div style='background-color: tomato; padding: 10px; border-radius: 5px;'>Failed</div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='background-color: tomato; padding: 10px; border-radius: 5px;'>Better Luck Next Time 🥺😓</div>", unsafe_allow_html=True)
             st.markdown('<br>', unsafe_allow_html=True)
 
             # 3. No. Of KT's
@@ -262,19 +262,20 @@ if uploaded_excel is not None:
                 return column.astype(str).str.count('F')
             # Select all columns except the last 4
             columns_to_check = student_df.columns[:-4]
+            subject_columns = student_df.copy()
             total_kts = 0
             # Loop through the selected columns and add a 'KT' column
             for col in columns_to_check:
-                student_df[f'{col}_KT'] = count_failures(student_df[col])
+                subject_columns[f'{col}_KT'] = count_failures(student_df[col])
 
             # Print the 'KT' columns
             for col in columns_to_check:
                 kt_column = f'{col}_KT'
-                kt_count = student_df[kt_column].sum()
+                kt_count = subject_columns[kt_column].sum()
                 total_kts += kt_count
                 if kt_count > 0:
                     st.write(f"Failed in '{col}'")
-            st.write(f"Total KT '{total_kts}'")
+            st.write(f"<b>Total KT </b>'{total_kts}'",unsafe_allow_html = True)
             
             
             
@@ -399,7 +400,7 @@ if uploaded_excel is not None:
 
         if len(subject_columns) > 0:
         # Allow user to select a subject
-            st.markdown(f"<b>SUBJECT WISE PERFORMANCE : </b>", unsafe_allow_html=True)
+            st.markdown(f"<b>WHOLE CLASS SUBJECT WISE PERFORMANCE : </b>", unsafe_allow_html=True)
             selected_subject = st.selectbox('Select a subject', subject_columns)
     
             if selected_subject:
@@ -408,7 +409,8 @@ if uploaded_excel is not None:
         
                 # Calculate the average score for the selected subject
                 average_score = sum(values) / len(values)
-                st.write(f"Average score for {selected_subject}: {average_score:.2f}")
+                st.write(f"<b>Average score for '{selected_subject}: {average_score:.2f}'</b>",unsafe_allow_html=True)
+                
 
         
             else:
