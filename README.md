@@ -1,6 +1,6 @@
 # GradeGraph
 
-GradeGraph is a Python-based tool for extracting and cleaning data from LTCE (Lokmanya Tilak College Of Engineering) result PDFs for semesters 3, 4, 5, and 6. It provides a streamlined way to convert raw PDF data into a clean and structured format for further analysis and visualization.
+GradeGraph is a tool we built to solve the time-consuming challenge of extracting student information from result PDFs. It's designed to make it easy for teachers to assess their entire class's performance and for students to quickly view their semester grades. GradeGraph also offers simple and effective data visualization features. and allows students as well as teachers to quickly view their semester grades with the added benefit of intuitive data visualization.
 
 ## Table of Contents
 
