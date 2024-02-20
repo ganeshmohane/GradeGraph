@@ -294,9 +294,17 @@ if uploaded_excel is not None:
             selected_student_entry = sorted_df[sorted_df['Student Name'] == selected_student]
             st.write(selected_student_entry)
             # Find the rank of the selected student
-            st.markdown(f"<b>RANK : </b>", unsafe_allow_html=True)
+            st.markdown(f"<b>OVERALL RANK : </b>", unsafe_allow_html=True)
             selected_student_rank = sorted_df[sorted_df['Student Name'] == selected_student]['Rank'].values[0]
             st.write(f"{selected_student}'s CGPI Rank: {selected_student_rank}")
+
+            # Find the rank of the selected student
+            st.markdown('<br>', unsafe_allow_html=True)
+            sorted_df = cleaned_df.sort_values(by='SGPI', ascending=False)
+            sorted_df['Rank'] = range(1, len(sorted_df) + 1)
+            st.markdown(f"<b>THIS SEM RANK : </b>", unsafe_allow_html=True)
+            selected_student_rank = sorted_df[sorted_df['Student Name'] == selected_student]['Rank'].values[0]
+            st.write(f"{selected_student}'s SGPI Rank: {selected_student_rank}")
             
             # 6. subjects performance
             subject_columnss = [col for col in student_df.columns if col not in ['Seat No', 'Student Name', 'CGPI', 'SGPI', 'Result', 'Total']]
