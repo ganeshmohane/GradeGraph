@@ -305,7 +305,7 @@ if uploaded_excel is not None:
             st.markdown(f"<b>THIS SEM RANK : </b>", unsafe_allow_html=True)
             selected_student_rank = sorted_df[sorted_df['Student Name'] == selected_student]['Rank'].values[0]
             st.write(f"{selected_student}'s SGPI Rank: {selected_student_rank}")
-            
+            st.write()
             # 6. subjects performance
             subject_columnss = [col for col in student_df.columns if col not in ['Seat No', 'Student Name', 'CGPI', 'SGPI', 'Result', 'Total']]
             subject_columnss = [col for col in subject_columnss if not col.startswith('Unnamed')]
