@@ -379,8 +379,21 @@ if uploaded_excel is not None:
         avg_cgpi = cleaned_df['CGPI'].mean()
         st.write(f"Average CGPI: {avg_cgpi:.2f}")
         st.markdown('<br>', unsafe_allow_html=True)
+
+
+        # 5. top 5 as per SGPI
+        st.markdown(f"<b>Top 5 as per SGPI, (This Sem Toppers) : </b>", unsafe_allow_html=True)
+        top_mathsstud = cleaned_df.groupby(['Student Name'], as_index=False)['SGPI'].sum().sort_values(by='SGPI', ascending=False).head(5)
+        sns.set(rc={'figure.figsize': (15, 6)})
+        fig, ax = plt.subplots()
+        sns.barplot(data=top_mathsstud, x='Student Name', y='SGPI')
+        for i in range(len(top_mathsstud)):
+            plt.text(i, top_mathsstud['SGPI'].iloc[i], f"{top_mathsstud['SGPI'].iloc[i]:.2f}", ha="center", va="bottom")
+        plt.savefig("img.png")
+        st.image("img.png")
+
         
-        # 5. top 5 
+        # 6. top 5 
         st.markdown(f"<b>TOP 5 as per CGPI : </b>", unsafe_allow_html=True)
         top_mathsstud = cleaned_df.groupby(['Student Name'], as_index=False)['CGPI'].sum().sort_values(by='CGPI', ascending=False).head(5)
         sns.set(rc={'figure.figsize': (15, 6)})
@@ -391,16 +404,7 @@ if uploaded_excel is not None:
         plt.savefig("img.png")
         st.image("img.png")
 
-        # 6. top 10 as per SGPI
-        st.markdown(f"<b>TOP 5 as per SGPI : </b>", unsafe_allow_html=True)
-        top_mathsstud = cleaned_df.groupby(['Student Name'], as_index=False)['SGPI'].sum().sort_values(by='SGPI', ascending=False).head(5)
-        sns.set(rc={'figure.figsize': (15, 6)})
-        fig, ax = plt.subplots()
-        sns.barplot(data=top_mathsstud, x='Student Name', y='SGPI')
-        for i in range(len(top_mathsstud)):
-            plt.text(i, top_mathsstud['SGPI'].iloc[i], f"{top_mathsstud['SGPI'].iloc[i]:.2f}", ha="center", va="bottom")
-        plt.savefig("img.png")
-        st.image("img.png")
+
 
 
         # Filter the subject columns
