@@ -199,28 +199,29 @@ if combined_df is not None:
     # Integrate Seat No and Student Name into the combined_df
     combined_df = pd.concat([seat_no_df, student_name_df, combined_df], axis=1)
 
-    excel_buffer = BytesIO()
-    combined_df.to_excel(excel_buffer, index=False)
-    excel_buffer.seek(0)
+#     excel_buffer = BytesIO()
+#     combined_df.to_excel(excel_buffer, index=False)
+#     excel_buffer.seek(0)
 
-    st.success("PDF data extraction and data cleaning complete.")
-    st.markdown("### Download Cleaned Data")
-    st.markdown("Note: Plz note that we have cleaned data but still cross check it, if you find any garbage data plz clean it before moving to visualization")
-    excel_base64 = base64.b64encode(excel_buffer.read()).decode()
-    st.markdown(f'<a href="data:application/octet-stream;base64,{excel_base64}" download="cleaned_data.xlsx">Download Cleaned Excel file</a>',unsafe_allow_html=True)
+#     st.success("PDF data extraction and data cleaning complete.")
+#     st.markdown("### Download Cleaned Data")
+#     st.markdown("Note: Plz note that we have cleaned data but still cross check it, if you find any garbage data plz clean it before moving to visualization")
+#     excel_base64 = base64.b64encode(excel_buffer.read()).decode()
+#     st.markdown(f'<a href="data:application/octet-stream;base64,{excel_base64}" download="cleaned_data.xlsx">Download Cleaned Excel file</a>',unsafe_allow_html=True)
 
-#---------------------------------------------------------------------------
+# #---------------------------------------------------------------------------
 
 
-# Step 3: Data Visualization
+# # Step 3: Data Visualization
 
-st.subheader("Data Visualization :")
-with st.expander("Upload Cleaned Excel file "):
-    uploaded_excel = st.file_uploader("Note : Upload Cleaned Excel File (only extracted from GradeGraph files allowed)")
+# st.subheader("Data Visualization :")
+# with st.expander("Upload Cleaned Excel file "):
+#     uploaded_excel = st.file_uploader("Note : Upload Cleaned Excel File (only extracted from GradeGraph files allowed)")
 
-if uploaded_excel is not None:
-    cleaned_df = pd.read_excel(uploaded_excel)
+# if uploaded_excel is not None:
+    # cleaned_df = pd.read_excel(uploaded_excel)
 
+    cleaned_df = combined_df
     # Fetch unique student names
     student_names = cleaned_df['Student Name'].unique().tolist()
     student_names.sort()
