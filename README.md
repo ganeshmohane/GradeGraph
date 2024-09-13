@@ -1,6 +1,11 @@
 # GradeGraph
 
 GradeGraph is a tool we built to solve the time-consuming challenge of extracting student information from result PDFs. It's designed to make it easy for teachers to assess their entire class's performance and for students to quickly view their semester grades. GradeGraph also offers simple and effective data visualization features. and allows students as well as teachers to quickly view their semester grades with the added benefit of intuitive data visualization.
+![image](https://github.com/user-attachments/assets/58e23744-dc48-4035-9565-e9cf93651dc0)
+![Screenshot (213)](https://github.com/user-attachments/assets/7b5470fe-dfd5-40d5-9783-32391f41a3cc)
+![Screenshot (217)](https://github.com/user-attachments/assets/c168b76f-42c3-4715-904f-c722b180629b)
+![Screenshot (216)](https://github.com/user-attachments/assets/cdc023f5-9111-49ec-a5b8-13f2da04d81e)
+![Screenshot (215)](https://github.com/user-attachments/assets/03088656-bbb6-4246-bb87-ea8b7916cdd3)
 
 ## Table of Contents
 
